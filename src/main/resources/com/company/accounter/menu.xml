@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://jmix.io/schema/flowui/menu">
+
+    <menu id="application" title="msg://com.company.accounter/menu.application.title" opened="true">
+        <item view="User.list" title="msg://com.company.accounter.view.user/UserListView.title"/>
+        <item view="NeedKind.list" title="msg://com.company.accounter.view.needkind/needKindListView.title"/>
+        <item view="NeedType.list" title="msg://com.company.accounter.view.needtype/needTypeListView.title"/>
+        <item view="Period_.list" title="msg://com.company.accounter.view.period/periodListView.title"/>
+        <item view="Needs.list" title="msg://com.company.accounter.view.needs/needsListView.title"/>
+        <item view="NeedsManager.list" title="msg://com.company.accounter.view.needs/needsManagerListView.title"/>
+    </menu>
+
+</menu-config>

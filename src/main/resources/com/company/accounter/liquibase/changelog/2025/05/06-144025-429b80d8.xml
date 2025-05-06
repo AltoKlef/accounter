@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1" author="Accounter">
+        <createTable tableName="NEED_KIND">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_NEED_KIND"/>
+            </column>
+            <column name="TYPE_ID" type="UUID"/>
+            <column name="NAME" type="VARCHAR(255)"/>
+            <column name="UNIT" type="VARCHAR(64)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="2" author="Accounter">
+        <createTable tableName="PERIOD_">
+            <column name="ID" type="UUID">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_PERIOD_"/>
+            </column>
+            <column name="DURATION" type="VARCHAR(255)"/>
+            <column name="AVAILABLE" type="BOOLEAN"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="3" author="Accounter">
+        <createIndex indexName="IDX_NEED_KIND_TYPE" tableName="NEED_KIND">
+            <column name="TYPE_ID"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="TYPE_ID" baseTableName="NEED_KIND"
+                                 constraintName="FK_NEED_KIND_ON_TYPE" onDelete="SET NULL" referencedColumnNames="ID"
+                                 referencedTableName="NEEDS"/>
+    </changeSet>
+</databaseChangeLog>

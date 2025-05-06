@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
+      title="msg://needsManagerListView.title"
+      focusComponent="needsesDataGrid">
+    <data>
+        <collection id="needsesDc"
+                    class="com.company.accounter.entity.Needs">
+            <fetchPlan extends="_base">
+                <property name="period" fetchPlan="_base"/>
+                <property name="createdBy" fetchPlan="_instance_name"/>
+                <property name="recipientUser" fetchPlan="_instance_name"/>
+                <property name="kind" fetchPlan="_base">
+                    <property name="type" fetchPlan="_instance_name"/>
+                </property>
+            </fetchPlan>
+            <loader id="needsesDl" readOnly="true">
+                <query>
+                    <![CDATA[select e from Needs e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <urlQueryParameters>
+            <genericFilter component="genericFilter"/>
+            <pagination component="pagination"/>
+        </urlQueryParameters>
+    </facets>
+    <actions>
+        <action id="selectAction" type="lookup_select"/>
+        <action id="discardAction" type="lookup_discard"/>
+    </actions>
+    <layout>
+        <hbox id="summaryBox">
+            <entityPicker id="periodsPicker" dataContainer="needsesDc" property="period"
+                          helperText="Выберите период, чтобы сформировать итоговую" requiredMessage=" ">
+                <actions>
+                    <action id="entityClear" type="entity_clear"/>
+                    <action id="entityLookup" type="entity_lookup"/>
+                </actions>
+            </entityPicker>
+            <button id="summaryButton" text="Summary"/>
+        </hbox>
+        <genericFilter id="genericFilter"
+                       dataLoader="needsesDl">
+            <properties include=".*"/>
+
+            <configurations>
+                <configuration id="needsFilter"
+                               name="Фильтр потребностей"
+                               default="true">
+                    <groupFilter operation="AND">
+
+                        <!-- 1. Период -->
+                        <propertyFilter property="period"
+                                        operation="EQUAL"
+                                        operationEditable="false"/>
+
+                        <!-- 2. Утверждена -->
+                        <propertyFilter property="approved"
+                                        operation="EQUAL"
+                                        operationEditable="false"/>
+
+                        <!-- 3. Учтена -->
+                        <propertyFilter property="accounted"
+                                        operation="EQUAL"
+                                        operationEditable="false"/>
+
+                        <!-- 4. Тип записи -->
+                        <propertyFilter property="recordType"
+                                        operation="EQUAL"
+                                        operationEditable="false"/>
+
+                    </groupFilter>
+                </configuration>
+            </configurations>
+        </genericFilter>
+        <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="createButton" action="needsesDataGrid.createAction"/>
+            <button id="editButton" action="needsesDataGrid.editAction"/>
+            <button id="removeButton" action="needsesDataGrid.removeAction"/>
+            <simplePagination id="pagination" dataLoader="needsesDl"/>
+        </hbox>
+        <dataGrid id="needsesDataGrid"
+                  width="100%"
+                  minHeight="20em"
+                  dataContainer="needsesDc"
+                  columnReorderingAllowed="true">
+            <actions>
+                <action id="createAction" type="list_create"/>
+                <action id="editAction" type="list_edit"/>
+                <action id="removeAction" type="list_remove"/>
+            </actions>
+            <columns resizable="true">
+                <column property="kind"/>
+                <column property="amount"/>
+                <column property="recordType"/>
+                <column property="recipientUser"/>
+                <column property="period"/>
+                <column property="accounted"/>
+                <column property="approved"/>
+            </columns>
+        </dataGrid>
+        <hbox id="lookupActions" visible="false">
+            <button id="selectButton" action="selectAction"/>
+            <button id="discardButton" action="discardAction"/>
+        </hbox>
+    </layout>
+</view>
