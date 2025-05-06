@@ -14,7 +14,7 @@ import org.springframework.context.ApplicationContext;
 public interface RestrictedEmployeeRole {
     String CODE = "restricted-employee-role";
     @JpqlRowLevelPolicy(entityClass = Needs.class,
-            where = "{E}.createdBy.username = :current_user_username and {E}.period.opened = true")
+            where = "{E}.period.opened = true and {E}.recordType = 'A'")
     void needsRead();
 
     @PredicateRowLevelPolicy(entityClass = Needs.class, actions = {RowLevelPolicyAction.UPDATE, RowLevelPolicyAction.DELETE})
@@ -23,8 +23,7 @@ public interface RestrictedEmployeeRole {
             CurrentAuthentication currentAuthentication = applicationContext.getBean(CurrentAuthentication.class);
             User currentUser = (User) currentAuthentication.getUser();
 
-            return needs.getCreatedBy() != null
-                    && currentUser.getUsername().equals(needs.getCreatedBy().getUsername())
+            return  (currentUser.getUsername().equals(needs.getCreatedBy().getUsername()) || currentUser.getUsername().equals(needs.getRecipientUser().getUsername()))
                     && needs.getPeriod() != null
                     && Boolean.TRUE.equals(needs.getPeriod().getOpened());
         };

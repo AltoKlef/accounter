@@ -13,8 +13,8 @@ import io.jmix.securityflowui.role.annotation.ViewPolicy;
 public interface EmployeeRole extends RestrictedEmployeeRole, UiMinimalRole{
     String CODE = "employee";
 
-    @EntityAttributePolicy(entityClass = Needs.class, attributes = {"accounted", "approved", "recordType", "createdBy"}, action = EntityAttributePolicyAction.VIEW)
-    @EntityAttributePolicy(entityClass = Needs.class, attributes = {"period", "amount", "kind", "recipientUser", "justification"}, action = EntityAttributePolicyAction.MODIFY)
+    @EntityAttributePolicy(entityClass = Needs.class, attributes = {"accounted", "approved", "recordType"}, action = EntityAttributePolicyAction.VIEW)
+    @EntityAttributePolicy(entityClass = Needs.class, attributes = {"period", "amount", "kind", "justification", "recipientUser"}, action = EntityAttributePolicyAction.MODIFY)
     @EntityPolicy(entityClass = Needs.class, actions = EntityPolicyAction.ALL)
     void needs();
 
@@ -34,6 +34,7 @@ public interface EmployeeRole extends RestrictedEmployeeRole, UiMinimalRole{
     @ViewPolicy(viewIds = {"User.list", "NeedKind.list", "NeedType.list", "Period_.list", "Needs.list", "NeedKind.detail", "NeedType.detail", "Needs.detail", "Period_.detail"})
     void screens();
 
+    @EntityAttributePolicy(entityClass = User.class, attributes = {"username", "firstName", "lastName"}, action = EntityAttributePolicyAction.VIEW)
     @EntityPolicy(entityClass = User.class, actions = EntityPolicyAction.READ)
     void user();
 }

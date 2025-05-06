@@ -14,15 +14,5 @@ import io.jmix.flowui.view.*;
 @LookupComponent("needsesDataGrid")
 @DialogMode(width = "64em")
 public class NeedsListView extends StandardListView<Needs> {
-    @Subscribe
-    public void onBeforeShow(BeforeShowEvent event) {
-        System.out.println("BeforeShow triggered");
-        DataLoader needsDl = getViewData().getLoader("needsesDl");
-        needsDl.setParameter("recordType", RecordType.USER.getId()); // т.е. "A"
 
-        // Логируем параметры и результат
-        System.out.println(">>> Параметры загрузчика: " + needsDl.getParameters());
-
-        needsDl.load();
-    }
 }
