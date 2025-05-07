@@ -55,9 +55,7 @@ public class NeedsManagerListView extends StandardListView<Needs> {
                 .query("select p from Period_ p where p.opened = true order by p.id desc")
                 .maxResults(1)
                 .optional();
-        lastOpenPeriod.ifPresent(period -> {
-            periodsPicker.setValue(period);
-        });
+        lastOpenPeriod.ifPresent(period -> periodsPicker.setValue(period));
 
     }
 
@@ -96,13 +94,12 @@ public class NeedsManagerListView extends StandardListView<Needs> {
         selectedNeeds.setApproved(!isApproved);
         dataManager.save(selectedNeeds);
 
-        boolean totalExists = dataManager.load(Needs.class)
+        boolean totalExists = !dataManager.load(Needs.class)
                 .query("select n from Needs n where n.period = :period and n.recordType = :type and n.kind = :kind")
                 .parameter("kind", selectedNeeds.getKind())
                 .parameter("period", selectedNeeds.getPeriod())
                 .parameter("type", RecordType.TOTAL)
-                .list()
-                .size() > 0;
+                .list().isEmpty();
 
         if (!isApproved && totalExists) {
             notifications.create("Потребность утверждена, но не учтена в итоговой.").show();

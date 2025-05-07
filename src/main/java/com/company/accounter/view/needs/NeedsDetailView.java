@@ -36,6 +36,6 @@ public class NeedsDetailView extends StandardDetailView<Needs> {
                 .maxResults(1)
                 .optional();
 
-        latestOpenPeriod.ifPresent(period -> needs.setPeriod(period));
+        latestOpenPeriod.ifPresent(needs::setPeriod);
     }
 }
