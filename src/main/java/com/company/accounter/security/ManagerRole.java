@@ -25,15 +25,16 @@ public interface ManagerRole extends UiMinimalRole {
     @EntityPolicy(entityClass = NeedKind.class, actions = EntityPolicyAction.ALL)
     void needKind();
 
-    @EntityAttributePolicy(entityClass = Period.class, attributes = {"duration", "opened"}, action = EntityAttributePolicyAction.MODIFY)
+    @EntityAttributePolicy(entityClass = Period.class, attributes = {"duration", "opened", "id", "*"}, action = EntityAttributePolicyAction.MODIFY)
     @EntityPolicy(entityClass = Period.class, actions = EntityPolicyAction.ALL)
     void period();
 
-    @EntityAttributePolicy(entityClass = Needs.class, attributes = {"recipientUser", "approved", "accounted"}, action = EntityAttributePolicyAction.MODIFY)
-    @EntityAttributePolicy(entityClass = Needs.class, attributes = {"createdBy", "justification", "amount", "period", "recordType", "kind"}, action = EntityAttributePolicyAction.VIEW)
+    @EntityAttributePolicy(entityClass = Needs.class, attributes = {"recipientUser", "approved", "accounted", "period"}, action = EntityAttributePolicyAction.MODIFY)
+    @EntityAttributePolicy(entityClass = Needs.class, attributes = {"createdBy", "justification", "amount", "recordType", "kind"}, action = EntityAttributePolicyAction.VIEW)
     @EntityPolicy(entityClass = Needs.class, actions = EntityPolicyAction.ALL)
     void needs();
 
+    @EntityAttributePolicy(entityClass = User.class, attributes = {"username", "firstName", "lastName", "active", "timeZoneId", "email"}, action = EntityAttributePolicyAction.VIEW)
     @EntityPolicy(entityClass = User.class, actions = {EntityPolicyAction.CREATE, EntityPolicyAction.READ})
     void user();
 }

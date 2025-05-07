@@ -12,4 +12,5 @@ import io.jmix.flowui.view.*;
 @LookupComponent("periodsDataGrid")
 @DialogMode(width = "64em")
 public class PeriodListView extends StandardListView<Period> {
+
 }

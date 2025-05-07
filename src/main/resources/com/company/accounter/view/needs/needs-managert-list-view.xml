@@ -51,33 +51,35 @@
                 <configuration id="needsFilter"
                                name="Фильтр потребностей"
                                default="true">
-                    <groupFilter operation="AND">
+                    <groupFilter id="groupFilter" operation="AND" operationTextVisible="false">
 
                         <!-- 1. Период -->
                         <propertyFilter property="period"
                                         operation="EQUAL"
-                                        operationEditable="false"/>
+                                        operationEditable="false" operationTextVisible="false"
+                                        defaultValue="select p from Period_ p where p.opened = true order by p.id desc"/>
 
                         <!-- 2. Утверждена -->
                         <propertyFilter property="approved"
                                         operation="EQUAL"
-                                        operationEditable="false"/>
+                                        operationEditable="false" operationTextVisible="false"/>
 
                         <!-- 3. Учтена -->
                         <propertyFilter property="accounted"
                                         operation="EQUAL"
-                                        operationEditable="false"/>
+                                        operationEditable="false" operationTextVisible="false"/>
 
                         <!-- 4. Тип записи -->
                         <propertyFilter property="recordType"
                                         operation="EQUAL"
-                                        operationEditable="false"/>
+                                        operationEditable="false" operationTextVisible="false"/>
 
                     </groupFilter>
                 </configuration>
             </configurations>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="approveButton" text="Approve" enabled="false"/>
             <button id="createButton" action="needsesDataGrid.createAction"/>
             <button id="editButton" action="needsesDataGrid.editAction"/>
             <button id="removeButton" action="needsesDataGrid.removeAction"/>

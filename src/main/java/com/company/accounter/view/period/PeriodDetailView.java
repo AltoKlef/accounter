@@ -13,4 +13,5 @@ import io.jmix.flowui.view.ViewDescriptor;
 @ViewDescriptor(path = "period-detail-view.xml")
 @EditedEntityContainer("periodDc")
 public class PeriodDetailView extends StandardDetailView<Period> {
+
 }
