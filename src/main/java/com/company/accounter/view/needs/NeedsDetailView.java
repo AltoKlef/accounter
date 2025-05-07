@@ -18,8 +18,6 @@ import java.util.Optional;
 @ViewDescriptor(path = "needs-detail-view.xml")
 @EditedEntityContainer("needsDc")
 public class NeedsDetailView extends StandardDetailView<Needs> {
-    @ViewComponent
-    private EntityPicker<Period> periodField;
     @Autowired
     private DataManager dataManager;
     @Autowired
@@ -38,8 +36,6 @@ public class NeedsDetailView extends StandardDetailView<Needs> {
                 .maxResults(1)
                 .optional();
 
-        latestOpenPeriod.ifPresent(period -> {
-            needs.setPeriod(period);
-        });
+        latestOpenPeriod.ifPresent(period -> needs.setPeriod(period));
     }
 }

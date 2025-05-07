@@ -40,7 +40,7 @@
                   width="100%"
                   minHeight="20em"
                   dataContainer="periodsDc"
-                  columnReorderingAllowed="true">
+                  columnReorderingAllowed="true" editorBuffered="true">
             <actions>
                 <action id="createAction" type="list_create"/>
                 <action id="editAction" type="list_edit"/>
