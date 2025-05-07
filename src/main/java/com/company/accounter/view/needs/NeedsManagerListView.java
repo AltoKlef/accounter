@@ -3,7 +3,6 @@ package com.company.accounter.view.needs;
 import com.company.accounter.entity.*;
 import com.company.accounter.view.main.MainView;
 import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.grid.ItemClickEvent;
 import com.vaadin.flow.data.selection.SelectionEvent;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.DataManager;
@@ -49,17 +48,15 @@ public class NeedsManagerListView extends StandardListView<Needs> {
     private DataGrid<Needs> needsesDataGrid;
     @ViewComponent
     private GroupFilter groupFilter;
-    periodsPicker.setValue(period);
+
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
         Optional<Period> lastOpenPeriod = dataManager.load(Period.class)
                 .query("select p from Period_ p where p.opened = true order by p.id desc")
                 .maxResults(1)
                 .optional();
-
         lastOpenPeriod.ifPresent(period -> {
-
-            groupFilter.
+            periodsPicker.setValue(period);
         });
 
     }
