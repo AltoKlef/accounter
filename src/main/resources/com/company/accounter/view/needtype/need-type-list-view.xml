@@ -27,7 +27,7 @@
     </actions>
     <layout>
         <genericFilter id="genericFilter"
-                       dataLoader="needTypesDl">
+                       dataLoader="needTypesDl" visible="false">
             <properties include=".*"/>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">

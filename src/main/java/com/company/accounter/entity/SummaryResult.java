@@ -26,7 +26,7 @@ public class SummaryResult {
         this.deleted = deleted;
     }
 
-    public Integer getDeleted() {
+    /* public Integer getDeleted() {
         return deleted;
     }
 
@@ -48,7 +48,7 @@ public class SummaryResult {
 
     public void setCreated(Integer created) {
         this.created = created;
-    }
+    } */
 
     public UUID getId() {
         return id;

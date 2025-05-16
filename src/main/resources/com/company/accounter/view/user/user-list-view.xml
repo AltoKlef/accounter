@@ -19,14 +19,10 @@
     </actions>
     <facets>
         <dataLoadCoordinator auto="true"/>
-        <urlQueryParameters>
-            <genericFilter component="genericFilter"/>
-            <pagination component="pagination"/>
-        </urlQueryParameters>
     </facets>
     <layout>
         <genericFilter id="genericFilter"
-                       dataLoader="usersDl">
+                       dataLoader="usersDl" visible="false">
             <properties include=".*"/>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">

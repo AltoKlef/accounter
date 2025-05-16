@@ -79,6 +79,7 @@
             </configurations>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">
+            <button id="exportExcelBtn" text="Экспорт в excel"/>
             <button id="approveButton" text="Approve" enabled="false"/>
             <button id="createButton" action="needsesDataGrid.createAction"/>
             <button id="editButton" action="needsesDataGrid.editAction"/>

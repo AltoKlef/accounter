@@ -26,7 +26,7 @@
     </actions>
     <layout>
         <genericFilter id="genericFilter"
-                       dataLoader="periodsDl">
+                       dataLoader="periodsDl" visible="false">
             <properties include=".*"/>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">

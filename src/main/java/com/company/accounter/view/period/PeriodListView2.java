@@ -5,8 +5,12 @@ import com.company.accounter.entity.Period;
 import com.company.accounter.entity.SummaryResult;
 import com.company.accounter.view.main.MainView;
 import com.vaadin.flow.router.Route;
+import io.jmix.core.AccessManager;
 import io.jmix.core.DataManager;
+import io.jmix.core.Metadata;
 import io.jmix.flowui.Notifications;
+import io.jmix.flowui.accesscontext.UiEntityContext;
+import io.jmix.flowui.action.list.EditAction;
 import io.jmix.flowui.component.grid.DataGrid;
 import io.jmix.flowui.kit.action.BaseAction;
 import io.jmix.flowui.model.DataContext;
@@ -43,17 +47,22 @@ public class PeriodListView2 extends StandardListView<Period> {
     private Notifications notifications;
     @Autowired
     private NeedsSummaryService needsSummaryService;
-
-
-    @Subscribe(target = Target.DATA_CONTEXT)
-    public void onChange(final DataContext.ChangeEvent event) {
-
-    }
     @Autowired
     private DataManager dataManager;
-
+    @Autowired
+    private AccessManager accessManager;
+    @Autowired
+    private Metadata metadata;
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
+        // Применяем access constraints (ViewPolicies, RolePolicies и т.п.)
+        UiEntityContext entityContext = new UiEntityContext(metadata.getClass(Period.class));
+        accessManager.applyRegisteredConstraints(entityContext);
+
+        // Если нельзя редактировать — отключаем действие
+        boolean canEdit = entityContext.isEditPermitted();
+        periodsDataGridCloseAction.setEnabled(canEdit);
+
         periodsDataGridCloseAction.withHandler(actionPerformedEvent -> {
             Period selectedPeriod = periodsDataGrid.getSingleSelectedItem();
             if (selectedPeriod == null) {
