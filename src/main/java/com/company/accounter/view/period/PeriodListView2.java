@@ -51,8 +51,6 @@ public class PeriodListView2 extends StandardListView<Period> {
     }
     @Autowired
     private DataManager dataManager;
-    @Autowired
-    private ApplicationContext applicationContext;
 
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {

@@ -13,8 +13,8 @@ import io.jmix.securityflowui.role.annotation.ViewPolicy;
 public interface ManagerRole extends UiMinimalRole {
     String CODE = "manager";
 
-    @MenuPolicy(menuIds = {"User.list", "NeedKind.list", "NeedType.list", "Period_.list", "NeedsManager.list", "Period_.2list"})
-    @ViewPolicy(viewIds = {"User.list", "NeedKind.list", "NeedType.list", "Period_.list", "NeedsManager.list", "NeedKind.detail", "Needs.detail", "NeedType.detail", "Period_.detail", "User.detail", "Period_.2list"})
+    @MenuPolicy(menuIds = {"User.list", "NeedKind.list", "NeedType.list", "NeedsManager.list", "Period_.2list"})
+    @ViewPolicy(viewIds = {"User.list", "NeedKind.list", "NeedType.list", "NeedsManager.list", "NeedKind.detail", "Needs.detail", "NeedType.detail", "Period_.detail", "User.detail", "Period_.2list"})
     void screens();
 
     @EntityAttributePolicy(entityClass = NeedType.class, attributes = {"description", "name"}, action = EntityAttributePolicyAction.MODIFY)
@@ -25,7 +25,7 @@ public interface ManagerRole extends UiMinimalRole {
     @EntityPolicy(entityClass = NeedKind.class, actions = EntityPolicyAction.ALL)
     void needKind();
 
-    @EntityAttributePolicy(entityClass = Period.class, attributes = {"duration", "opened", "id", "*"}, action = EntityAttributePolicyAction.MODIFY)
+    @EntityAttributePolicy(entityClass = Period.class, attributes = {"*"}, action = EntityAttributePolicyAction.MODIFY)
     @EntityPolicy(entityClass = Period.class, actions = EntityPolicyAction.ALL)
     void period();
 

@@ -2,12 +2,14 @@ package com.company.accounter.entity;
 
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
 import io.jmix.core.entity.annotation.JmixId;
+import io.jmix.core.metamodel.annotation.InstanceName;
 import io.jmix.core.metamodel.annotation.JmixEntity;
 
 import java.util.UUID;
 
 @JmixEntity
 public class SummaryResult {
+    @InstanceName
     @JmixGeneratedValue
     @JmixId
     private UUID id;
