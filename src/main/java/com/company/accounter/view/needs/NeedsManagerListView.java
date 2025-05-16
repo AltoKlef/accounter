@@ -1,5 +1,6 @@
 package com.company.accounter.view.needs;
 
+import com.company.accounter.app.NeedsSummaryService;
 import com.company.accounter.entity.*;
 import com.company.accounter.view.main.MainView;
 import com.vaadin.flow.component.ClickEvent;
@@ -7,6 +8,7 @@ import com.vaadin.flow.data.selection.SelectionEvent;
 import com.vaadin.flow.router.Route;
 import io.jmix.core.DataManager;
 import io.jmix.core.security.CurrentAuthentication;
+import io.jmix.data.impl.EntityListenerManager;
 import io.jmix.flowui.Notifications;
 import io.jmix.flowui.component.grid.DataGrid;
 import io.jmix.flowui.component.logicalfilter.GroupFilter;
@@ -15,11 +17,8 @@ import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 
 @Route(value = "manager-needses", layout = MainView.class)
@@ -48,6 +47,8 @@ public class NeedsManagerListView extends StandardListView<Needs> {
     private DataGrid<Needs> needsesDataGrid;
     @ViewComponent
     private GroupFilter groupFilter;
+    @Autowired
+    private NeedsSummaryService needsSummaryService;
 
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
@@ -78,7 +79,8 @@ public class NeedsManagerListView extends StandardListView<Needs> {
             return;
         }
 
-        generateSummaryForPeriod(selectedPeriod);
+        SummaryResult result = needsSummaryService.generateSummaryForPeriod(selectedPeriod);
+        periodsPicker.setHelperText(result.toString());
     }
 
     @Subscribe(id = "approveButton", subject = "clickListener")
@@ -106,69 +108,5 @@ public class NeedsManagerListView extends StandardListView<Needs> {
         } else if (isApproved && totalExists) {
             notifications.create("Потребность снята с утверждения. Требуется пересчёт итоговой.").show();
         }
-    }
-
-    private void generateSummaryForPeriod(Period period) {
-        List<Needs> approvedNeeds = dataManager.load(Needs.class)
-                .query("select n from Needs n where n.period = :period and n.approved = true and n.recordType <> :recordType")
-                .parameter("period", period)
-                .parameter("recordType", RecordType.TOTAL)
-                .list();
-
-        Map<NeedKind, Integer> summaryMap = approvedNeeds.stream()
-                .collect(Collectors.groupingBy(
-                        Needs::getKind,
-                        Collectors.summingInt(Needs::getAmount)
-                ));
-
-        List<Needs> totalNeeds = dataManager.load(Needs.class)
-                .query("select n from Needs n where n.period = :period and n.recordType = :recordType")
-                .parameter("period", period)
-                .parameter("recordType", RecordType.TOTAL)
-                .list();
-
-        int created = 0;
-        int updated = 0;
-        int deleted = 0;
-
-        for (Needs total : totalNeeds) {
-            NeedKind kind = total.getKind();
-            Integer newAmount = summaryMap.get(kind);
-
-            if (newAmount == null) {
-                dataManager.remove(total);
-                deleted++;
-            } else if (!Objects.equals(total.getAmount(), newAmount)) {
-                total.setAmount(newAmount);
-                dataManager.save(total);
-                updated++;
-                summaryMap.remove(kind);
-            } else {
-                summaryMap.remove(kind);
-            }
-        }
-
-        for (Map.Entry<NeedKind, Integer> entry : summaryMap.entrySet()) {
-            Needs total = dataManager.create(Needs.class);
-            total.setRecipientUser((User) currentAuthentication.getUser());
-            total.setKind(entry.getKey());
-            total.setAmount(entry.getValue());
-            total.setPeriod(period);
-            total.setRecordType(RecordType.TOTAL);
-            total.setAccounted(true);
-            total.setApproved(true);
-            dataManager.save(total);
-            created++;
-        }
-
-        for (Needs n : approvedNeeds) {
-            if (!Boolean.TRUE.equals(n.getAccounted())) {
-                n.setAccounted(true);
-            }
-        }
-
-        dataManager.saveAll(approvedNeeds);
-
-        periodsPicker.setHelperText("Итоговая сформирована. Добавлено: " + created + ", Обновлено: " + updated + ", Удалено: " + deleted);
     }
 }

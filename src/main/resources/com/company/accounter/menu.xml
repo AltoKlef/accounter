@@ -5,9 +5,9 @@
         <item view="User.list" title="msg://com.company.accounter.view.user/UserListView.title"/>
         <item view="NeedKind.list" title="msg://com.company.accounter.view.needkind/needKindListView.title"/>
         <item view="NeedType.list" title="msg://com.company.accounter.view.needtype/needTypeListView.title"/>
-        <item view="Period_.list" title="msg://com.company.accounter.view.period/periodListView.title"/>
         <item view="Needs.list" title="msg://com.company.accounter.view.needs/needsListView.title"/>
         <item view="NeedsManager.list" title="msg://com.company.accounter.view.needs/needsManagerListView.title"/>
+        <item view="Period_.2list" title="msg://com.company.accounter.view.period/periodListView2.title"/>
     </menu>
 
 </menu-config>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
       xmlns:c="http://jmix.io/schema/flowui/jpql-condition"
-      title="msg://periodListView.title"
+      title="msg://periodListView2.title"
       focusComponent="periodsDataGrid">
     <data>
         <collection id="periodsDc"
@@ -31,24 +31,22 @@
             <properties include=".*"/>
         </genericFilter>
         <hbox id="buttonsPanel" classNames="buttons-panel">
-            <button id="createButton" action="periodsDataGrid.createAction"/>
-            <button id="editButton" action="periodsDataGrid.editAction"/>
-            <button id="removeButton" action="periodsDataGrid.removeAction"/>
             <simplePagination id="pagination" dataLoader="periodsDl"/>
         </hbox>
         <dataGrid id="periodsDataGrid"
                   width="100%"
                   minHeight="20em"
                   dataContainer="periodsDc"
-                  columnReorderingAllowed="true" editorBuffered="true">
+                  columnReorderingAllowed="true">
             <actions>
                 <action id="createAction" type="list_create"/>
                 <action id="editAction" type="list_edit"/>
                 <action id="removeAction" type="list_remove"/>
+                <action id="closeAction" text="Close period"/>
             </actions>
             <columns resizable="true">
                 <column property="duration"/>
-                <column property="opened" editable="true"/>
+                <column property="opened"/>
             </columns>
         </dataGrid>
         <hbox id="lookupActions" visible="false">

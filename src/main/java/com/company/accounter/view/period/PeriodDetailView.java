@@ -2,9 +2,7 @@ package com.company.accounter.view.period;
 
 import com.company.accounter.entity.Period;
 import com.company.accounter.view.main.MainView;
-import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.router.Route;
-import io.jmix.flowui.component.checkbox.JmixCheckbox;
 import io.jmix.flowui.view.*;
 
 @Route(value = "periods/:id", layout = MainView.class)
@@ -12,9 +10,5 @@ import io.jmix.flowui.view.*;
 @ViewDescriptor(path = "period-detail-view.xml")
 @EditedEntityContainer("periodDc")
 public class PeriodDetailView extends StandardDetailView<Period> {
-    @Subscribe("openedField")
-    public void onOpenedFieldComponentValueChange(final AbstractField.ComponentValueChangeEvent<JmixCheckbox, ?> event) {
-        
-    }
-    
+
 }

@@ -13,8 +13,8 @@ import io.jmix.securityflowui.role.annotation.ViewPolicy;
 public interface ManagerRole extends UiMinimalRole {
     String CODE = "manager";
 
-    @MenuPolicy(menuIds = {"User.list", "NeedKind.list", "NeedType.list", "Period_.list", "NeedsManager.list"})
-    @ViewPolicy(viewIds = {"User.list", "NeedKind.list", "NeedType.list", "Period_.list", "NeedsManager.list", "NeedKind.detail", "Needs.detail", "NeedType.detail", "Period_.detail", "User.detail"})
+    @MenuPolicy(menuIds = {"User.list", "NeedKind.list", "NeedType.list", "Period_.list", "NeedsManager.list", "Period_.2list"})
+    @ViewPolicy(viewIds = {"User.list", "NeedKind.list", "NeedType.list", "Period_.list", "NeedsManager.list", "NeedKind.detail", "Needs.detail", "NeedType.detail", "Period_.detail", "User.detail", "Period_.2list"})
     void screens();
 
     @EntityAttributePolicy(entityClass = NeedType.class, attributes = {"description", "name"}, action = EntityAttributePolicyAction.MODIFY)

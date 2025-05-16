@@ -30,8 +30,8 @@ public interface EmployeeRole extends RestrictedEmployeeRole, UiMinimalRole{
     @EntityPolicy(entityClass = Period.class, actions = EntityPolicyAction.READ)
     void period();
 
-    @MenuPolicy(menuIds = {"User.list", "NeedKind.list", "NeedType.list", "Period_.list", "Needs.list"})
-    @ViewPolicy(viewIds = {"User.list", "NeedKind.list", "NeedType.list", "Period_.list", "Needs.list", "NeedKind.detail", "NeedType.detail", "Needs.detail", "Period_.detail"})
+    @MenuPolicy(menuIds = {"User.list", "NeedKind.list", "NeedType.list", "Period_.list", "Needs.list", "Period_.2list"})
+    @ViewPolicy(viewIds = {"User.list", "NeedKind.list", "NeedType.list", "Period_.list", "Needs.list", "NeedKind.detail", "NeedType.detail", "Needs.detail", "Period_.detail", "Period_.2list"})
     void screens();
 
     @EntityAttributePolicy(entityClass = User.class, attributes = {"username", "firstName", "lastName"}, action = EntityAttributePolicyAction.VIEW)
