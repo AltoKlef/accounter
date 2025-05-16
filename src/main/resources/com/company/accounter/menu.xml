@@ -8,6 +8,7 @@
         <item view="Needs.list" title="msg://com.company.accounter.view.needs/needsListView.title"/>
         <item view="NeedsManager.list" title="msg://com.company.accounter.view.needs/needsManagerListView.title"/>
         <item view="Period_.2list" title="msg://com.company.accounter.view.period/periodListView2.title"/>
+        <item view="Period_.list" title="msg://com.company.accounter.view.period/periodListView.title"/>
     </menu>
 
 </menu-config>

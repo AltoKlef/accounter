@@ -14,14 +14,14 @@ public interface ManagerRole extends UiMinimalRole {
     String CODE = "manager";
 
     @MenuPolicy(menuIds = {"User.list", "NeedKind.list", "NeedType.list", "NeedsManager.list", "Period_.2list"})
-    @ViewPolicy(viewIds = {"User.list", "NeedKind.list", "NeedType.list", "NeedsManager.list", "NeedKind.detail", "Needs.detail", "NeedType.detail", "Period_.detail", "User.detail", "Period_.2list"})
+    @ViewPolicy(viewIds = {"User.list", "NeedKind.list", "NeedType.list", "NeedsManager.list", "NeedKind.detail", "Needs.detail", "NeedType.detail", "Period_.detail", "User.detail", "Period_.2list", "Period_.list"})
     void screens();
 
-    @EntityAttributePolicy(entityClass = NeedType.class, attributes = {"description", "name"}, action = EntityAttributePolicyAction.MODIFY)
+    @EntityAttributePolicy(entityClass = NeedType.class, attributes = "*", action = EntityAttributePolicyAction.MODIFY)
     @EntityPolicy(entityClass = NeedType.class, actions = EntityPolicyAction.ALL)
     void needType();
 
-    @EntityAttributePolicy(entityClass = NeedKind.class, attributes = {"name", "unit"}, action = EntityAttributePolicyAction.MODIFY)
+    @EntityAttributePolicy(entityClass = NeedKind.class, attributes = "*", action = EntityAttributePolicyAction.MODIFY)
     @EntityPolicy(entityClass = NeedKind.class, actions = EntityPolicyAction.ALL)
     void needKind();
 

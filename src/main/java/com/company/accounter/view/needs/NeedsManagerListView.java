@@ -17,7 +17,6 @@ import io.jmix.flowui.component.valuepicker.EntityPicker;
 import io.jmix.flowui.kit.component.button.JmixButton;
 import io.jmix.flowui.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import io.jmix.flowui.download.Downloader;
 
 import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
@@ -52,43 +51,49 @@ public class NeedsManagerListView extends StandardListView<Needs> {
     private DataGrid<Needs> needsesDataGrid;
     @ViewComponent
     private GroupFilter groupFilter;
+
+    @Subscribe
+    public void onInit(final InitEvent event) {
+
+    }
     @Autowired
     private NeedsSummaryService needsSummaryService;
     @ViewComponent
     private JmixButton exportExcelBtn;
+
     @Subscribe(id = "exportExcelBtn", subject = "clickListener")
     public void onExportExcelBtnClick(final ClickEvent<JmixButton> event) {
-        List<Needs> items = (List<Needs>) needsesDataGrid.getItems().getItems();
-        if (items.isEmpty()) {
-            notifications.create("Нет данных для экспорта").show();
-            return;
+        if (needsesDataGrid != null && needsesDataGrid.getItems() != null) {
+            List<Needs> items = (List<Needs>) needsesDataGrid.getItems().getItems();
+            if (items.isEmpty()) {
+                notifications.create("Нет данных для экспорта").show();
+                return;
+            }
+
+            StringBuilder csvBuilder = new StringBuilder();
+            csvBuilder.append("ID;Вид;Количество;Период;Тип записи;Утверждено;Учтено\n");
+
+            for (Needs n : items) {
+                csvBuilder.append(n.getId()).append(";")
+                        .append(n.getKind() != null ? n.getKind().getName() : "").append(";")
+                        .append(n.getAmount() != null ? n.getAmount() : "").append(";")
+                        .append(n.getPeriod() != null ? n.getPeriod().getDuration() : "").append(";")
+                        .append(n.getRecordType() != null ? n.getRecordType().name() : "").append(";")
+                        .append(Boolean.TRUE.equals(n.getApproved()) ? "Да" : "Нет").append(";")
+                        .append(Boolean.TRUE.equals(n.getAccounted()) ? "Да" : "Нет").append("\n");
+            }
+
+            byte[] csvBytes = ("\uFEFF" + csvBuilder).getBytes(StandardCharsets.UTF_8);
+
+
+            StreamResource resource = new StreamResource("needs.csv", () -> new ByteArrayInputStream(csvBytes));
+            Anchor downloadLink = new Anchor(resource, "");
+            downloadLink.getElement().setAttribute("download", true);
+            downloadLink.getElement().setAttribute("style", "display:none");
+            downloadLink.getElement().callJsFunction("click");
+
+            exportExcelBtn.getParent().ifPresent(parent -> parent.getElement().appendChild(downloadLink.getElement()));
         }
-
-        StringBuilder csvBuilder = new StringBuilder();
-        csvBuilder.append("ID;Вид;Количество;Период;Тип записи;Утверждено;Учтено\n");
-
-        for (Needs n : items) {
-            csvBuilder.append(n.getId()).append(";")
-                    .append(n.getKind() != null ? n.getKind().getName() : "").append(";")
-                    .append(n.getAmount() != null ? n.getAmount() : "").append(";")
-                    .append(n.getPeriod() != null ? n.getPeriod().getDuration() : "").append(";")
-                    .append(n.getRecordType() != null ? n.getRecordType().name() : "").append(";")
-                    .append(Boolean.TRUE.equals(n.getApproved()) ? "Да" : "Нет").append(";")
-                    .append(Boolean.TRUE.equals(n.getAccounted()) ? "Да" : "Нет").append("\n");
-        }
-
-        byte[] csvBytes = ("\uFEFF" + csvBuilder).getBytes(StandardCharsets.UTF_8);
-
-
-        StreamResource resource = new StreamResource("needs.csv", () -> new ByteArrayInputStream(csvBytes));
-        Anchor downloadLink = new Anchor(resource, "");
-        downloadLink.getElement().setAttribute("download", true);
-        downloadLink.getElement().setAttribute("style", "display:none");
-        downloadLink.getElement().callJsFunction("click");
-
-        exportExcelBtn.getParent().ifPresent(parent -> {
-            parent.getElement().appendChild(downloadLink.getElement());
-        });
     }
 
     @Subscribe
